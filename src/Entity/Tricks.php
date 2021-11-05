@@ -30,11 +30,6 @@ class Tricks
     private $description;
 
     /**
-     * @ORM\Column(type="date")
-     */
-    private $updateDate;
-
-    /**
      * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="tricks")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -65,6 +60,11 @@ class Tricks
      * @ORM\Column(type="datetime")
      */
     private $creationDate;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $updateDate;
 
     public function __construct()
     {
@@ -98,18 +98,6 @@ class Tricks
     public function setDescription(string $description): self
     {
         $this->description = $description;
-
-        return $this;
-    }
-
-    public function getUpdateDate(): ?\DateTimeInterface
-    {
-        return $this->updateDate;
-    }
-
-    public function setUpdateDate(\DateTimeInterface $updateDate): self
-    {
-        $this->updateDate = $updateDate;
 
         return $this;
     }
@@ -236,6 +224,18 @@ class Tricks
     public function setCreationDate(\DateTimeInterface $creationDate): self
     {
         $this->creationDate = $creationDate;
+
+        return $this;
+    }
+
+    public function getUpdateDate(): ?\DateTimeInterface
+    {
+        return $this->updateDate;
+    }
+
+    public function setUpdateDate(?\DateTimeInterface $updateDate): self
+    {
+        $this->updateDate = $updateDate;
 
         return $this;
     }

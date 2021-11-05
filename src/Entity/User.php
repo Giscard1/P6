@@ -31,11 +31,6 @@ class User
     private $lastName;
 
     /**
-     * @ORM\Column(type="boolean")
-     */
-    private $isAdmin;
-
-    /**
      * @ORM\OneToMany(targetEntity=Tricks::class, mappedBy="user")
      */
     private $trick;
@@ -101,18 +96,6 @@ class User
     public function setLastName(string $lastName): self
     {
         $this->lastName = $lastName;
-
-        return $this;
-    }
-
-    public function getIsAdmin(): ?bool
-    {
-        return $this->isAdmin;
-    }
-
-    public function setIsAdmin(bool $isAdmin): self
-    {
-        $this->isAdmin = $isAdmin;
 
         return $this;
     }

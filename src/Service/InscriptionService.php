@@ -5,7 +5,6 @@ namespace App\Service;
 
 use App\Entity\User;
 
-
 class InscriptionService extends BaseService
 {
 

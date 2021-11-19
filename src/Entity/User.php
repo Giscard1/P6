@@ -69,6 +69,7 @@ class User
     {
         $this->trick = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->creationDAte = new \DateTime();
     }
 
     public function getId(): ?int

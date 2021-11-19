@@ -20,7 +20,7 @@ class TrickController extends AbstractController
      * @return \Symfony\Component\HttpFoundation\Response
      */
 
-    public function newUser(Request $request, TrickService $trickService)
+    public function newTrick(Request $request, TrickService $trickService)
     {
         $trick = new Tricks();
         $form = $this->createForm(TrickType::class, $trick)->handleRequest($request);

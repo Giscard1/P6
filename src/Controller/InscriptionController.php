@@ -22,12 +22,11 @@ class InscriptionController extends AbstractController
 
     public function newUser(Request $request, InscriptionService $inscriptionService)
     {
-        $user = new User();
-        $form = $this->createForm(InscriptionType::class, $user)->handleRequest($request);
+        $form = $this->createForm(InscriptionType::class)->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid())
         {
-            $inscriptionService->createNewUser($user);
+            $inscriptionService->createNewUser($form->getData());
             $this->addFlash('success', 'new user creat');
         }
         return $this->render('Inscription/inscription.html.twig', ['form' => $form->createView()]);

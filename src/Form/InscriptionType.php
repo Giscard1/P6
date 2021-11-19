@@ -43,8 +43,7 @@ class InscriptionType extends AbstractType
                 [
                     'label' => 'Mot de passe'
                 ]
-            )
-            ->add('Inscription', SubmitType::class);
+            );
     }
 
     public function configureOptions(OptionsResolver $resolver)

@@ -4,6 +4,7 @@
 namespace App\Controller;
 
 
+use App\Entity\Tricks;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,6 +19,9 @@ class HomeController extends AbstractController
 
     public function homepage(Request $request)
     {
-        return $this->render('Homepage/homepage.html.twig');
+        $Trickrepository = $this->getDoctrine()->getRepository(Tricks::class);
+        $allTricks = $Trickrepository->findAll();
+
+        return $this->render('Homepage/homepage.html.twig', ['allTrick' => $allTricks]);
     }
 }

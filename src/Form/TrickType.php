@@ -49,7 +49,7 @@ class TrickType extends AbstractType
                 [
                     'entry_type' => FileType::class
                 ]
-            )
+            );
             /*
             ->add(
                 'picture',
@@ -57,8 +57,6 @@ class TrickType extends AbstractType
                 ['entry_type' => PictureType::class]
             )
             */
-
-            ->add('newTrick', SubmitType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver)

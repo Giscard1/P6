@@ -23,7 +23,7 @@ class TrickController extends AbstractController
     public function newTrick(Request $request, TrickService $trickService)
     {
         $trick = new Tricks();
-        $form = $this->createForm(TrickType::class, $trick)->handleRequest($request);
+        $form = $this->createForm(TrickType::class)->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid())
         {
@@ -32,4 +32,5 @@ class TrickController extends AbstractController
         }
         return $this->render('Trick/trick.html.twig', ['form' => $form->createView()]);
     }
+
 }

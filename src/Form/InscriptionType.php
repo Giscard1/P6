@@ -3,7 +3,6 @@
 
 namespace App\Form;
 
-
 use App\Entity\User;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\AbstractType;
@@ -44,8 +43,7 @@ class InscriptionType extends AbstractType
                 [
                     'label' => 'Mot de passe'
                 ]
-            )
-            ->add('Inscription', SubmitType::class);
+            );
     }
 
     public function configureOptions(OptionsResolver $resolver)

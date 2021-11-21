@@ -71,6 +71,8 @@ class Tricks
         $this->picture = new ArrayCollection();
         $this->steps = new ArrayCollection();
         $this->comment = new ArrayCollection();
+        $this->setCreationDate(new \DateTime());
+        $this->setUser(1);
     }
 
     public function getId(): ?int

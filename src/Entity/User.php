@@ -56,11 +56,6 @@ class User
     private $password;
 
     /**
-     * @ORM\Column(type="boolean")
-     */
-    private $role;
-
-    /**
      * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="user")
      */
     private $comments;
@@ -69,6 +64,7 @@ class User
     {
         $this->trick = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->creationDAte = new \DateTime();
     }
 
     public function getId(): ?int
@@ -174,18 +170,6 @@ class User
     public function setPassword(string $password): self
     {
         $this->password = $password;
-
-        return $this;
-    }
-
-    public function getRole(): ?bool
-    {
-        return $this->role;
-    }
-
-    public function setRole(bool $role): self
-    {
-        $this->role = $role;
 
         return $this;
     }

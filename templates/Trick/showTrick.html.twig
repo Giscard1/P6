@@ -1,0 +1,63 @@
+{% extends'baseTrick.html.twig' %}
+
+{% block body %}
+    <div class="firstTrick" id="firstTrickDiv">
+        <div class="jumbotron bg-cover">
+        </div>
+    </div>
+
+    <div class="secondTrick" id="secondTrickDiv">
+        <div class="row">
+                {% for tricks in trick %}
+                    <div class="col-md-3">
+                        {{ trick.picture }}
+                    </div>
+                {% endfor %}
+        </div>
+    </div>
+
+    <div class="descriptionContainer">
+        {{ trick.description }}
+    </div>
+
+    <div class="importantInformations">
+        <div class="row">
+            <div class="col">
+                <span class="badge bg-secondary">
+                    <P>Date de création : </P>{{ trick.creationDate |date('d-m-Y') }}
+                </span>
+            </div>
+            <div class="col">
+                <span class="badge bg-secondary">
+                    <P>Categorie : </P>{{ trick.category.name }}
+                </span>
+            </div>
+            {% if trick.updateDate %}
+                <div class="col">
+                <span class="badge bg-secondary">
+                    <P>Categorie : </P>{{ trick.updateDate |date('d-m-Y') }}
+                </span>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="commentForm">
+        {{ form_start(commentForm) }}
+        {{ form_label(commentForm.content) }}
+        {{ form_widget(commentForm.content) }}
+        <button type="button">Leave a comment</button>
+        {{ form_end(commentForm) }}
+    </div>
+    {#
+    <div class="commentSection">
+        {% if comment %}
+            {% for comments in comment %}
+            <ul>
+                <li>{{ comments }}</li>
+            </ul>
+            {% endfor %}
+        {% endif %}
+    </div>
+#}
+{% endblock %}

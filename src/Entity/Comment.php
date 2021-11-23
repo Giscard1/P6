@@ -22,7 +22,6 @@ class Comment
      */
     private $content;
 
-
     /**
      * @ORM\ManyToOne(targetEntity=Tricks::class, inversedBy="comment")
      */
@@ -43,6 +42,13 @@ class Comment
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
+
+    public function __construct()
+    {
+        $this->creationDate = new \DateTime();
+        $this->tricks = $this->getTricks();
+        $this->user = $this->getUser();
+    }
 
     public function getId(): ?int
     {

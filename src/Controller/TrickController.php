@@ -44,17 +44,16 @@ class TrickController extends AbstractController
      */
     public function showTrick(int $id, Request $request, CommentService $commentService)
     {
-        $comment = new Comment();
         $trick = $this->getDoctrine()->getRepository(Tricks::class)->find($id);
+        $picture = $trick->getPicture();
         $commentForm = $this->createForm(CommentType::class)->handleRequest($request);
 
         if ($commentForm->isSubmitted() && $commentForm->isValid())
         {
+            $comment = $commentForm->getData();
             $commentService->createNewComment($comment);
             $this->addFlash('success', 'new comment creat');
         }
-        return $this->render('Trick/showTrick.html.twig', ['trick' => $trick, 'commentForm' => $commentForm->createView()]);
+        return $this->render('Trick/showTrick.html.twig', ['trick' => $trick, 'picture' => $picture ,'commentForm' => $commentForm->createView()]);
     }
-
-
 }

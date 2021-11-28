@@ -5,7 +5,8 @@
     homepage
     <div class="jumbotron">
         <h1 class="display-4">Hello, world!</h1>
-        <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
+        <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to
+            featured content or information.</p>
         <hr class="my-4">
         <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
         <p class="lead">
@@ -14,18 +15,39 @@
     </div>
 </div>
     <div class="second" id="secondDiv">
-        <div class="row">
-            {% for allTricks in allTrick %}
-                    <div class="col-md-3">
-                    <div class="card" style="max-width: 23rem">
-                    <img class="card-img-top" src="https://via.placeholder.com/5/O https://placeholder.com/ "alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ allTricks.name }}</h5>
-                        {# <a href="#" class="btn btn-primary">Go somewhere</a>#}
-                    </div>
-                </div>
-                    </div>
-                    {% endfor %}
+        <div class="row" id="container-tricks">
+        {% include '_parts/_tric_card.html.twig' with { 'tricks': allTrick } %}
+        </div>
+        <div style="display: flex; justify-content: center">
+            {% if page != pageTotal %}
+            <button class="btn btn-primary" id="load-more" data-next-page="{{ page + 1 }}"
+                    data-total-page="{{ pageTotal }}"
+                    data-trick-ajax="{{ path('get_tricks_ajax') }}">Plus</button>
+            {% endif %}
         </div>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script language="JavaScript">
+        $('#load-more').on('click', function(e) {
+            const totalPage = $('#load-more').data('total-page');
+            const nextPage = $('#load-more').data('next-page');
+            const urlToCallAjax = $('#load-more').data('trick-ajax');
+            fetch(urlToCallAjax + '?page=' + nextPage)
+                .then((response) => response.json())
+                .then(data => {
+                    console.log(data);
+                    if (nextPage === totalPage) {
+                        //désactiver le boutton
+                        $('#load-more').prop('disabled', true);
+                    }
+                    $('#load-more').data('next-page', nextPage + 1);
+                    $('#container-tricks').append(data.html);
+                });
+            console.log(totalPage);
+            console.log(nextPage);
+            console.log(urlToCallAjax);
+        });
+    </script>
 {% endblock %}

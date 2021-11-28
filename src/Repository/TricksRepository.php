@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Tricks;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -35,8 +36,6 @@ class TricksRepository extends ServiceEntityRepository
         ;
     }
 
-
-
     public function findOneBySomeField($value): ?Tricks
     {
         return $this->createQueryBuilder('t')
@@ -45,6 +44,16 @@ class TricksRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult()
         ;
+    }
+
+    public function getTrickByLimit(int $page, int $limitPerPage)
+    {
+        $querybuilder =  $this->createQueryBuilder('t')
+            ->setFirstResult(($page - 1) * $limitPerPage)
+            ->setMaxResults($limitPerPage)
+            ->orderBy('t.updateDate', 'DESC');
+
+        return new Paginator($querybuilder);
     }
 
 }

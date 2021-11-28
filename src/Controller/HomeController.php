@@ -12,8 +12,6 @@ use Symfony\Component\HttpFoundation\Request;
 
 class HomeController extends AbstractController
 {
-
-
     /**
      * @Route ("/homepage", name="homepage")
      * @param Request $request

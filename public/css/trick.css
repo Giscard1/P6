@@ -1,0 +1,23 @@
+body{
+    margin:0;
+    padding:0;
+    height:1200px;
+}
+
+#firstTrickDiv{
+    background-color:gray;
+    height: 25%;
+}
+
+#secondTrickDiv{
+    background-color:white;
+    height: 10%;
+}
+
+.descriptionContainer{
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-top: 3%;
+    text-align: center;
+
+}

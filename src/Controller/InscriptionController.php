@@ -6,35 +6,42 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\InscriptionType;
+use App\Service\CommentService;
 use App\Service\InscriptionService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\PasswordHasher\PasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Security;
 
 class InscriptionController extends AbstractController
 {
-    //private UserPasswordHasherInterface $passwordHacher;
-
     /**
      * @var UserPasswordHasherInterface
      */
 
-    public function __construct(UserPasswordHasherInterface $passwordHacher)
+    public function __construct(UserPasswordHasherInterface $passwordHacher, Security $security)
     {
         $this->passwordHacher = $passwordHacher;
+        $this->Security = $security;
     }
 
     /**
      * @Route ("/register", name="register")
      * @param Request $request
      * @param InscriptionService $inscriptionService
+     * @param CommentService $commentService
      * @return \Symfony\Component\HttpFoundation\Response
      */
 
-    public function newUser(Request $request, InscriptionService $inscriptionService)
+    public function newUser(Request $request, InscriptionService $inscriptionService, Security $security)
     {
+        //redirige l'utilisateur vers la homepage s'il est connecté
+        if ($this->Security->isGranted('IS_AUTHENTICATED_FULLY')){
+            return $this->redirectToRoute('homepage');
+        }
+
         $formRegister = $this->createForm(InscriptionType::class)->handleRequest($request);
 
         if ($formRegister->isSubmitted() && $formRegister->isValid())
@@ -47,8 +54,8 @@ class InscriptionController extends AbstractController
             //persister user
             //$inscriptionService->createNewUser($formRegister->getData());
             $inscriptionService->createNewUser($user);
-            return $this->redirectToRoute('homepage');
             $this->addFlash('success', 'new user creat');
+            return $this->redirectToRoute('homepage');
         }
         return $this->render('Inscription/inscription.html.twig', ['form' => $formRegister->createView()]);
     }

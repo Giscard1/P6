@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
 class HomeController extends AbstractController
 {
     /**
-     * @Route ("/homepage", name="homepage")
+     * @Route ("/", name="homepage")
      * @param Request $request
      * @param TricksRepository $tricksRepository
      * @return \Symfony\Component\HttpFoundation\Response

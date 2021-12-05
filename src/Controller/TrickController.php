@@ -13,18 +13,31 @@ use App\Service\TrickService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Security;
 
 class TrickController extends AbstractController
 {
+    public function __construct(Security $security)
+    {
+        // service de Symfony permettant l'authentification
+        $this->Security = $security;
+    }
+
     /**
      * @Route ("/newTrick", name="newTrick")
      * @param Request $request
      * @param TrickService $trickService
+     * @param Security $security
      * @return \Symfony\Component\HttpFoundation\Response
      */
 
-    public function newTrick(Request $request, TrickService $trickService)
+    public function newTrick(Request $request, TrickService $trickService, Security $security)
     {
+        //redirige l'utilisateur vers la homepage s'il n'est pas connecté
+        if (!$this->Security->isGranted('IS_AUTHENTICATED_FULLY')){
+            return $this->redirectToRoute('homepage');
+        }
+
         $trick = new Tricks();
         $form = $this->createForm(TrickType::class)->handleRequest($request);
 

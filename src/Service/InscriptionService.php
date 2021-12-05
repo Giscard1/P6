@@ -10,7 +10,6 @@ class InscriptionService extends BaseService
 
     public function createNewUser(\App\Entity\User $user)
     {
-        $user->setRole(0);
         $this->persist($user);
         $this->flush();
     }

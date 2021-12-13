@@ -6,6 +6,8 @@ use App\Repository\TricksRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * @ORM\Entity(repositoryClass=TricksRepository::class)
@@ -23,17 +25,31 @@ class Tricks
 
     /**
      * @ORM\Column(type="string", length=255)
+     * * @Assert\Length(
+     *      min=2, max=70,
+     *      minMessage="Le nom doit comporter 2 caractères minimum",
+     *      maxMessage="Le nom doit comporter 70 caractères maximum"
+     * )
+     * @Assert\NotBlank(message = "Le nom ne peut être vide.")
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * * @ORM\Column(type="string", length=255)
+     * * @Assert\Length(
+     *      min=2, max=70,
+     *      minMessage="La description doit comporter 2 caractères minimum",
+     *      maxMessage="Le description doit comporter 70 caractères maximum"
+     * )
+     * @Assert\NotBlank(message = "La description ne peut être vide.")
      */
     private $description;
 
     /**
      * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="tricks")
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotBlank(message = "La catégorie ne peut être vide.")
      */
     private $category;
 

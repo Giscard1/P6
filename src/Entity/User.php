@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\PasswordHasher\PasswordHasherInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -26,11 +27,23 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
+         * @Assert\Length(
+         *      min=2, max=70,
+         *      minMessage="Le prénom doit comporter 2 caractères minimum",
+         *      maxMessage="Le prénom doit comporter 70 caractères maximum"
+         * )
+         * @Assert\NotBlank(message = "Le prénom ne peut être vide.")
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * * @Assert\Length(
+     *      min=2, max=70,
+     *      minMessage="Le nom doit comporter 2 caractères minimum",
+     *      maxMessage="Le nom doit comporter 70 caractères maximum"
+     * )
+     * @Assert\NotBlank(message = "Le nom ne peut être vide.")
      */
     private $lastName;
 
@@ -41,6 +54,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message = "Le champ mail ne peut être vide.")
+     * @Assert\Email(
+     *     message = "L'email '{{ value }}' n'est pas un mail valide."
+     * )
      */
     private $email;
 
@@ -56,6 +73,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message = "Le mon de passe ne peut être vide.")
      */
     private $password;
 

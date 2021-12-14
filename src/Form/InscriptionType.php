@@ -43,7 +43,10 @@ class InscriptionType extends AbstractType
                 'password',
                 RepeatedType::class,
                 [
-                    'type' => PasswordType::class
+                    'type' => PasswordType::class,
+                    'first_options' => ['label' => 'Mot de passe'],
+                    'second_options' => ['label' => 'Confirmer le mot de passe'],
+                    'invalid_message' => 'Les mots de passe ne correspond pas'
                 ]
             );
     }

@@ -2,10 +2,12 @@
 
 {% block body %}
 
-    {{ form_start(form) }}
+    {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
 
     {{ form_label(form.name) }}
     {{ form_widget(form.name) }}
+    {{ form_errors(form.name) }}
+
 
     {{ form_label(form.lastName) }}
     {{ form_widget(form.lastName) }}

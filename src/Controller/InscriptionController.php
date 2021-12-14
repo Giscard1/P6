@@ -14,6 +14,7 @@ use Symfony\Component\PasswordHasher\PasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class InscriptionController extends AbstractController
 {
@@ -35,8 +36,9 @@ class InscriptionController extends AbstractController
      * @return \Symfony\Component\HttpFoundation\Response
      */
 
-    public function newUser(Request $request, InscriptionService $inscriptionService, Security $security)
+    public function newUser(Request $request, InscriptionService $inscriptionService, Security $security, ValidatorInterface $validator)
     {
+
         //redirige l'utilisateur vers la homepage s'il est connecté
         if ($this->Security->isGranted('IS_AUTHENTICATED_FULLY')){
             return $this->redirectToRoute('homepage');
@@ -48,14 +50,18 @@ class InscriptionController extends AbstractController
         {
             //Récup les données user
             $user = $formRegister->getData();
-            //Hash du mot de pass
-            $passwordHashed = $this->passwordHacher->hashPassword($user, $user->getPassword());
-            $user->setPassword($passwordHashed);
-            //persister user
-            //$inscriptionService->createNewUser($formRegister->getData());
-            $inscriptionService->createNewUser($user);
-            $this->addFlash('success', 'new user creat');
-            return $this->redirectToRoute('homepage');
+            //$errors = $validator->validate($user);
+
+                //Hash du mot de pass
+                $passwordHashed = $this->passwordHacher->hashPassword($user, $user->getPassword());
+                $user->setPassword($passwordHashed);
+                //persister user
+                //$inscriptionService->createNewUser($formRegister->getData());
+                $inscriptionService->createNewUser($user);
+                $this->addFlash('success', 'new user creat');
+                return $this->redirectToRoute('security_login');
+
+
         }
         return $this->render('Inscription/inscription.html.twig', ['form' => $formRegister->createView()]);
     }

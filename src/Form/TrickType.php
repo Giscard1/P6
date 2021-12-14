@@ -40,7 +40,7 @@ class TrickType extends AbstractType
                 EntityType::class,
                 [
                     'class' => Category::class,
-                    'label' => 'Mail'
+                    'label' => 'Catégorie'
                 ]
             )
             ->add(

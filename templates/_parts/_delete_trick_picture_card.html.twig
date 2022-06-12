@@ -1,0 +1,16 @@
+<div class="modal fade" id="deletePictureModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                Êtes-vous sur de vouloir supprimer cette photo.
+            </div>
+            <div class="modal-footer">
+                <div class="col-3">
+                    <a href="{{ path('picture_delete', {'idTrick': trick.id ,'idPicture':media.id}) }}">
+                        Oui
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

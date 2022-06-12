@@ -1,0 +1,43 @@
+
+                                        <div class="top-content">
+                                            <div class="container-fluid">
+                                                <div id="carousel-example" class="carousel slide" data-ride="carousel">
+                                                    <div class="carousel-inner row w-100 mx-auto" role="listbox">
+                                                        {% for media in medias %}
+                                                        <div class="carousel-item col-12 col-md-4 col-lg-3 {% if loop.index == 1 %}active{% endif %}">
+                                                            {% if media.nature == 'picture' %}
+                                                                <div style="max-height:150px">
+                                                                    <img src="{{ '/uploads/trick/' ~  media.name  }}" class="img-fluid" alt="{{ media.description }}"/>
+                                                                </div>
+                                                                {% if mode_ouverture == 'update' %}
+                                                                    <div class="row update_link_buttons">
+                                                                        <div class="col">
+                                                                            <button type="button" id="TrashUpdateIcon" class="btn btn-primary" data-toggle="modal" data-target="#deletePictureModal">
+                                                                                <i class="fas fa-trash"></i></button>
+                                                                            {% include '_parts/_delete_trick_picture_card.html.twig' with { 'trick': trick, 'idPicture':media.id } %}
+                                                                        </div>
+                                                                        <div class="col">
+                                                                            <a class="btn btn-primary" id="penUpdateIcon" href="{{ path('trick_update_picture',{ 'trick': trick,'id':trick.id,'idMedia':media.id}) }}" >
+                                                                                <i class="fas fa-pen"></i></a>
+                                                                            {#{{% include '_parts/_update_trick_picture_modal.html.twig' with { 'trick': trick, 'idPicture':media.id }%}#}
+                                                                        </div>
+                                                                    </div>
+                                                                {% endif %}
+                                                            {% else %}
+                                                                <iframe width="300" height="150" src="{{ media.name }}"></iframe>
+                                                            {% endif %}
+                                                                </div>
+                                                        {% endfor %}
+                                                    </div>
+                                                    <a class="carousel-control-prev" href="#carousel-example" role="button" data-slide="prev">
+                                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                        <span class="sr-only">Previous</span>
+                                                    </a>
+                                                    <a class="carousel-control-next" href="#carousel-example" role="button" data-slide="next">
+                                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                        <span class="sr-only">Next</span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+

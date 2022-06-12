@@ -1,11 +1,28 @@
-
-{% for allTricks in allTrick %}
+{% for trick in allTrick %}
     <div class="col-md-3">
-        <div class="card" style="max-width: 23rem">
+        <div class="card">
+            <a href="{{ path('trick', {'slug':trick.slug}) }}">
             <img class="card-img-top" src="https://via.placeholder.com/5/O https://placeholder.com/
                     "alt="Card image cap">
+            </a>
             <div class="card-body">
-                <h5 class="card-title">{{ allTricks.name }}</h5>
+                <div class="row">
+                    <div class="col-6">
+                        <h5 class="card-title">{{ trick.name }}</h5>
+                    </div>
+                    {% if app.user %}
+                    <div class="col-3">
+                        <a href="{{ path('trick_update', {'id':trick.id}) }}">
+                            <i class="fas fa-pen"></i>
+                        </a>
+                    </div>
+                    <div class="col-3">
+                       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                           <i class="fas fa-trash"></i></button>
+                        {% include '_parts/_delete_trick_modal_card.html.twig' with { 'trick': trick } %}
+                    </div>
+                    {% endif %}
+                </div>
                 {# <a href="#" class="btn btn-primary">Go somewhere</a>#}
             </div>
         </div>

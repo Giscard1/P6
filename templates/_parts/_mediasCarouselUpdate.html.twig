@@ -1,0 +1,52 @@
+<div class="container text-center my-3">
+    <div class="row mx-auto my-auto justify-content-center">
+        <div id="recipeCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner" role="listbox">
+                    <div class="carousel-item active">
+                        {% for media in medias %}
+                        <div class="col-md-3">
+                            <div class="card">
+                                {% if media.nature == 'picture' %}
+                                <div class="card-img">
+                                    {#<img src="https://via.placeholder.com/500x400/31f?text=1" class="img-fluid">#}
+                                    <img src="{{ '/uploads/trick/' ~  media.name  }}" alt="{{ media.description }}" width="300" height="150"/>
+                                </div>
+                                    <div class="col-3">
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                                            <i class="fas fa-trash"></i></button>
+                                        {% include '_parts/_delete_trick_picture_card.html.twig' with { 'trick': trick, 'idPicture':media.id } %}
+                                    </div>
+                                {% else %}
+                                    <div class="col-3">
+                                        <div class="row">
+                                            <div class="col">
+                                                <iframe width="300" height="150" src="{{ media.name }}"></iframe>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+                                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                                                    <i class="fas fa-pen"></i></button>
+                                            </div>
+                                            <div class="col">
+                                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                                                    <i class="fas fa-trash"></i></button>
+                                                {% include '_parts/_delete_trick_video_modal_update.html.twig' with { 'trick': trick, 'id':media.id } %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+            </div>
+            <a class="carousel-control-prev bg-transparent w-aut" href="#recipeCarousel" role="button" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true" style="background-color: red"></span>
+            </a>
+            <a class="carousel-control-next bg-transparent w-aut" href="#recipeCarousel" role="button" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true" style="background-color: red"></span>
+            </a>
+        </div>
+    </div>
+</div>

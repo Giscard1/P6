@@ -11,6 +11,11 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 class LoginController extends AbstractController
 {
 
+    /**
+     * @var Security
+     */
+    private $Security;
+
     public function __construct(Security $security)
     {
         // service de Symfony permettant l'authentification
@@ -19,9 +24,11 @@ class LoginController extends AbstractController
 
     /**
      * @Route("/login", name="security_login")
+     * @param AuthenticationUtils $authenticationUtils
+     * @param Security $security
+     * @return Response
      */
     public function index(AuthenticationUtils $authenticationUtils, Security $security): Response {
-
 
          //redirige l'utilisateur vers la homepage s'il est deja connecté
          if ($this->Security->isGranted('IS_AUTHENTICATED_FULLY')){

@@ -1,0 +1,46 @@
+{% extends'baseTrick.html.twig' %}
+{% block body %}
+    {{ form_start(form) }}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col d-flex justify-content-center">
+                <div class="card card-card-card">
+                    <div class="card-body card-body-body">
+                        <div class="container">
+                            <div class="row">
+                                <h5 style="margin-left:23%; margin-bottom: 10%">Nouvelle photo</h5>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="nameContainer">
+                                        <div class="form-groupx">
+                                            <div class="input">{{ form_widget(form.imageFile) }}</div>
+                                            <div class="error">{{ form_errors(form.imageFile) }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="nameContainer">
+                                        <div class="form-groupx">
+                                            <div class="input">{{ form_widget(form.description) }}</div>
+                                            <div class="error">{{ form_errors(form.description) }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group" style="margin-top: 10%">
+                            <div class="label d-flex justify-content-center">
+                                <button type="submit" class="btn btn-dark">Mettre à jour</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{ form_end(form) }}
+{% endblock %}
+

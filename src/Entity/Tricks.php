@@ -6,15 +6,19 @@ use App\Repository\TricksRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
 /**
- * @ORM\Entity(repositoryClass=TricksRepository::class)
+ * @ORM\Entity(repositoryClass="App\Repository\TricksRepository", repositoryClass=TricksRepository::class)
+ * @UniqueEntity(fields={"name"})
  */
 class Tricks
 {
     public const LIMIT_PER_PAGE = 15;
+    public const LIMIT_COMMENT_PER_PAGE = 3;
 
     /**
      * @ORM\Id
@@ -38,23 +42,23 @@ class Tricks
      * @ORM\Column(type="string", length=255)
      * * @ORM\Column(type="string", length=255)
      * * @Assert\Length(
-     *      min=2, max=70,
+     *      min=2, max=255,
      *      minMessage="La description doit comporter 2 caractères minimum",
-     *      maxMessage="Le description doit comporter 70 caractères maximum"
+     *      maxMessage="Le description doit comporter 255 caractères maximum"
      * )
      * @Assert\NotBlank(message = "La description ne peut être vide.")
      */
     private $description;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="tricks")
+     * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="tricks",cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      * @Assert\NotBlank(message = "La catégorie ne peut être vide.")
      */
     private $category;
 
     /**
-     * @ORM\OneToMany(targetEntity=Pictures::class, mappedBy="tricks")
+     * @ORM\OneToMany(targetEntity=Pictures::class, mappedBy="tricks", cascade={"persist", "remove"})
      */
     private $picture;
 
@@ -84,13 +88,60 @@ class Tricks
      */
     private $updateDate;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Videos::class, mappedBy="tricks",cascade={"persist"})
+     */
+    private $videos;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $alt;
+
+    private $imageFile;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $mainPicture;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $slug;
+
+    /**
+     * @return mixed
+     */
+    public function getImageFile()
+    {
+        return $this->imageFile;
+    }
+
+    /**
+     * @param mixed $imageFile
+     */
+    public function setImageFile($imageFile): void
+    {
+        $this->imageFile = $imageFile;
+    }
+
+    /*
+     * @return UploadedFile
+
+    public function getImageFile(): UploadedFile
+    {
+        return $this->imageFile;
+    }
+*/
+
     public function __construct()
     {
         $this->picture = new ArrayCollection();
         $this->steps = new ArrayCollection();
         $this->comment = new ArrayCollection();
         $this->creationDate = new \DateTime();
-        //$this->setUser(1);
+        $this->videos = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -259,4 +310,76 @@ class Tricks
 
         return $this;
     }
+
+    /**
+     * @return Collection|Videos[]
+     */
+    public function getVideos(): Collection
+    {
+        return $this->videos;
+    }
+
+    public function addVideo(Videos $video): self
+    {
+        if (!$this->videos->contains($video)) {
+            $this->videos[] = $video;
+            $video->setTricks($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVideo(Videos $video): self
+    {
+        if ($this->videos->removeElement($video)) {
+            // set the owning side to null (unless already changed)
+            if ($video->getTricks() === $this) {
+                $video->setTricks(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getAlt(): ?string
+    {
+        return $this->alt;
+    }
+
+    public function setAlt(?string $alt): self
+    {
+        $this->alt = $alt;
+
+        return $this;
+    }
+
+    public function __toString()
+    {
+        return (string)$this->videos;
+    }
+
+    public function getMainPicture(): ?string
+    {
+        return $this->mainPicture;
+    }
+
+    public function setMainPicture(?string $mainPicture): self
+    {
+        $this->mainPicture = $mainPicture;
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
 }

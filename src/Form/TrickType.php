@@ -4,6 +4,7 @@
 namespace App\Form;
 
 use App\Entity\Category;
+use App\Entity\Pictures;
 use App\Entity\Steps;
 use App\Entity\Tricks;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -29,10 +30,17 @@ class TrickType extends AbstractType
                 ]
             )
             ->add(
+                'imageFile',
+                FileType::class,
+                [
+                    'label' => 'Image principal'
+                ]
+            )
+            ->add(
                 'description',
                 TextareaType::class,
                 [
-                    'label' => 'description'
+                    'label' => 'Déscription'
                 ]
             )
             ->add(
@@ -40,6 +48,7 @@ class TrickType extends AbstractType
                 EntityType::class,
                 [
                     'class' => Category::class,
+                    'choice_label' => 'name',
                     'label' => 'Catégorie'
                 ]
             )
@@ -47,16 +56,32 @@ class TrickType extends AbstractType
                 'picture',
                 CollectionType::class,
                 [
-                    'entry_type' => FileType::class
+                    'entry_type' => PictureType::class,
+                    'label' => false,
+                    'entry_options' =>
+                        [
+                        'label' => 'Ajouter une image'
+                        ],
+                    'allow_add' => true,
+                    'allow_delete' => true,
+                    'by_reference' => false
+                ]
+            )
+            ->add(
+                'videos',
+                CollectionType::class,
+                [
+                    'entry_type' => VideoType::class,
+                    'label' => false,
+                    'entry_options' =>
+                        [
+                            'label' => 'Ajouter une video'
+                        ],
+                    'allow_add' => true,
+                    'allow_delete' => true,
+                    'by_reference' => false
                 ]
             );
-            /*
-            ->add(
-                'picture',
-                CollectionType::class,
-                ['entry_type' => PictureType::class]
-            )
-            */
     }
 
     public function configureOptions(OptionsResolver $resolver)

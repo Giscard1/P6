@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Comment;
+use App\Entity\Tricks;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -19,6 +20,18 @@ class CommentRepository extends ServiceEntityRepository
         parent::__construct($registry, Comment::class);
     }
 
+    public function getCommentsPagination(int $trickId,int $page, int $limit = 3)
+    {
+        return $this->createQueryBuilder('c')
+            //->innerJoin('c.tricks', 't')
+            ->where('c.tricks = :tricks')
+            ->setParameter('tricks', $trickId)
+            //->orderBy('c.id', 'DESC')
+            ->setFirstResult(($page - 1) * $limit)
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
     // /**
     //  * @return Comment[] Returns an array of Comment objects
     //  */
@@ -47,4 +60,18 @@ class CommentRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function getCommentsByLimit(int $int, int $LIMIT_COMMENT_PER_PAGE)
+    {
+        return $this->createQueryBuilder('t')
+            ->setFirstResult($int * $LIMIT_COMMENT_PER_PAGE)
+            ->setMaxResults($LIMIT_COMMENT_PER_PAGE)
+            //AJOUTER INNER JOIN AVEC LA TABLE COMMENT POUR RECUPÉRER LA DATE DE CREATION->orderBy('t.creationDAte', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
+
+    public function findAllTricksById(int $idTrick){
+        return $this->findAll(['id' => $idTrick]);
+    }
 }

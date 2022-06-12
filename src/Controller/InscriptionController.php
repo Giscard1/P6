@@ -19,13 +19,19 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class InscriptionController extends AbstractController
 {
     /**
-     * @var UserPasswordHasherInterface
+     * @var Security
+     */
+    private $security;
+
+    /**
+     * @param UserPasswordHasherInterface $passwordHacher
+     * @param Security $security
      */
 
     public function __construct(UserPasswordHasherInterface $passwordHacher, Security $security)
     {
         $this->passwordHacher = $passwordHacher;
-        $this->Security = $security;
+        $this->security = $security;
     }
 
     /**
@@ -40,7 +46,7 @@ class InscriptionController extends AbstractController
     {
 
         //redirige l'utilisateur vers la homepage s'il est connecté
-        if ($this->Security->isGranted('IS_AUTHENTICATED_FULLY')){
+        if ($this->security->isGranted('IS_AUTHENTICATED_FULLY')){
             return $this->redirectToRoute('homepage');
         }
 
@@ -48,20 +54,18 @@ class InscriptionController extends AbstractController
 
         if ($formRegister->isSubmitted() && $formRegister->isValid())
         {
-            //Récup les données user
             $user = $formRegister->getData();
-            //$errors = $validator->validate($user);
 
-                //Hash du mot de pass
-                $passwordHashed = $this->passwordHacher->hashPassword($user, $user->getPassword());
-                $user->setPassword($passwordHashed);
-                //persister user
-                //$inscriptionService->createNewUser($formRegister->getData());
-                $inscriptionService->createNewUser($user);
-                $this->addFlash('success', 'new user creat');
-                return $this->redirectToRoute('security_login');
-
-
+            $errors = $validator->validate($user);
+            //Hash du mot de pass
+             $passwordHashed = $this->passwordHacher->hashPassword($user, $user->getPassword());
+             $user->setPassword($passwordHashed);
+             $inscriptionService->createNewUser($user);
+             $this->addFlash('success', 'new user creat');
+             return $this->redirectToRoute('security_login');
+        }
+        else{
+            echo $formRegister->getErrors();
         }
         return $this->render('Inscription/inscription.html.twig', ['form' => $formRegister->createView()]);
     }

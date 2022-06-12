@@ -1,0 +1,17 @@
+body{
+    margin:0;
+    padding:0;
+    height:1200px;
+    background-color: black;
+}
+
+#firstTrickDiv{
+    background-color:gray;
+    height: 25%;
+}
+
+#secondTrickDiv{
+    background-color:white;
+    height: 10%;
+}
+

@@ -1,0 +1,118 @@
+{% extends'baseTrick.html.twig' %}
+{% block body %}
+    {{ form_start(form) }}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col d-flex justify-content-center">
+                <div class="card card-card-card">
+                    <div class="card-body card-body-body">
+                        <div class="container">
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="container-fluid">
+                                            <img src="{{ '/uploads/trick/' ~  mainImage  }}" alt="{{ mainImage }}" width="800" height="400"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="nameContainer">
+                                        <div class="form-groupx">
+                                            <div class="label d-flex justify-content-center">{{ form_label(form.name) }}</div>
+                                            <div class="input">{{ form_widget(form.name) }}</div>
+                                            <div class="error">{{ form_errors(form.name) }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="mediasContainer">
+                                        {% include '_parts/_mediasCarousel.html.twig' with { 'medias': medias, 'update': mode_ouverture } %}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="descriptionContainer">
+                                        <div class="form-groupx">
+                                            <div class="label d-flex justify-content-center">{{ form_label(form.description) }}</div>
+                                            <div class="input">{{ form_widget(form.description) }}</div>
+                                            <div class="error">{{ form_errors(form.description) }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group">
+                                    <div class="videoContainer">
+                                        {#
+                                        {% for video in trick.videos %}
+                                            <iframe width="75" height="50" src="{{ video }}"></iframe>
+                                            {#<button type="button" class="add_item_link" data-collection-holder-class="videos-container">Ajouter une video</button>
+                                            <div class="trash-icon">
+                                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalSuppressionVideo" id="trash-button">
+                                                        <i class="fas fa-trash"></i></button>
+                                                    {% include '_parts/_delete_trick_video_modal_update.html.twig' with {'video': video} %}
+                                                </div>
+                                        {% endfor %}
+                                        #}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                   <div class="label">{{ form_label(form.category) }}</div>
+                                   <div class="input">{{ form_widget(form.category) }}</div>
+                                   <div class="error">{{ form_errors(form.category) }}</div>
+                                </div>
+                                <div class="col">
+                                   <button type="submit" class="update_save_button btn btn-dark">Sauvegarder</button>
+                                </div>
+                                <div class="col">
+                                   <button type="button" class="update_delete_button btn btn-danger" data-toggle="modal" data-target="#exampleModalDeleteTrick">
+                                      Supprimer
+                                   </button>
+                                      {% include '_parts/_delete_trick_modal_update.html.twig' with { 'trick': trick } %}
+                                </div>
+                             </div>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{ form_end(form) }}
+{% endblock %}
+
+
+{% block javascripts %}
+    <script>
+        /*
+     Carousel
+ */
+        $('#carousel-example').on('slide.bs.carousel', function (e) {
+            /*
+                CC 2.0 License Iatek LLC 2018 - Attribution required
+            */
+            var $e = $(e.relatedTarget);
+            var idx = $e.index();
+            var itemsPerSlide = 5;
+            var totalItems = $('.carousel-item').length;
+
+            if (idx >= totalItems-(itemsPerSlide-1)) {
+                var it = itemsPerSlide - (totalItems - idx);
+                for (var i=0; i<it; i++) {
+                    // append slides to end
+                    if (e.direction=="left") {
+                        $('.carousel-item').eq(i).appendTo('.carousel-inner');
+                    }
+                    else {
+                        $('.carousel-item').eq(0).appendTo('.carousel-inner');
+                    }
+                }
+            }
+        });
+    </script>
+{% endblock %}

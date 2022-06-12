@@ -42,6 +42,8 @@ class Category
     public function __construct()
     {
         $this->tricks = new ArrayCollection();
+        $this->creationDate = new \DateTime();
+
     }
 
     public function getId(): ?int
@@ -115,8 +117,5 @@ class Category
         return $this;
     }
 
-    public function __toString()
-    {
-        return $this->name;
-    }
+
 }

@@ -1,0 +1,134 @@
+{% extends'baseTrick.html.twig' %}
+{% block body %}
+    {{ form_start(form) }}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col d-flex justify-content-center">
+                <div class="card card-card-card">
+                    <div class="card-body card-body-body">
+                        <div class="container">
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="container-fluid">
+                                            <img src="https://fakeimg.pl/800x200/">
+                                        </div>
+                                    </div>
+                                </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="nameContainer">
+                                        <div class="form-groupx">
+                                            <div class="label d-flex justify-content-center">{{ form_label(form.name) }}</div>
+                                            <div class="input">{{ form_widget(form.name) }}</div>
+                                            <div class="error">{{ form_errors(form.name) }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="mediasContainer">
+                                        {% for media in medias %}
+                                            <div class="row">
+                                            <div class="col-md-3">
+                                                <div class="card">
+                                                    {% if media.nature == 'picture' %}
+                                                        <div class="card-img">
+                                                            {#<img src="https://via.placeholder.com/500x400/31f?text=1" class="img-fluid">#}
+                                                            <img src="{{ '/uploads/trick/' ~  media.name  }}" alt="{{ media.description }}" width="300" height="150"/>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#deletePictureModal">
+                                                                    <i class="fas fa-trash"></i></button>
+                                                                {% include '_parts/_delete_trick_picture_card.html.twig' with { 'trick': trick, 'idPicture':media.id } %}
+                                                            </div>
+                                                            <div class="col">
+                                                                        <a class="btn btn-primary" href="{{ path('trick_update_picture',{ 'trick': trick,'id':trick.id,'idMedia':media.id}) }}" >
+                                                                            <i class="fas fa-pen"></i></a>
+                                                                        {#{{% include '_parts/_update_trick_picture_modal.html.twig' with { 'trick': trick, 'idPicture':media.id }%}#}
+                                                            </div>
+                                                        </div>
+                                                    {% else %}
+                                                        <div class="col-3">
+                                                            <div class="row">
+                                                                <div class="col">
+                                                                    <iframe width="300" height="150" src="{{ media.name }}"></iframe>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col">
+                                                                    <a class="btn btn-primary" href="{{ path('trick_update_video',{ 'trick': trick,'id':trick.id,'idMedia':media.id}) }}" >
+                                                                        <i class="fas fa-pen"></i></a>
+                                                                </div>
+                                                                <div class="col">
+                                                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#deleteVideoModal">
+                                                                        <i class="fas fa-trash"></i></button>
+                                                                    {% include '_parts/_delete_trick_video_modal_update.html.twig' with { 'trick': trick, 'id':media.id } %}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="descriptionContainer">
+                                        <div class="form-groupx">
+                                            <div class="label d-flex justify-content-center">{{ form_label(form.description) }}</div>
+                                            <div class="input">{{ form_widget(form.description) }}</div>
+                                            <div class="error">{{ form_errors(form.description) }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group">
+                                    <div class="videoContainer">
+                                        {#
+                                        {% for video in trick.videos %}
+                                            <iframe width="75" height="50" src="{{ video }}"></iframe>
+                                            {#<button type="button" class="add_item_link" data-collection-holder-class="videos-container">Ajouter une video</button>
+                                            <div class="trash-icon">
+                                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalSuppressionVideo" id="trash-button">
+                                                        <i class="fas fa-trash"></i></button>
+                                                    {% include '_parts/_delete_trick_video_modal_update.html.twig' with {'video': video} %}
+                                                </div>
+                                        {% endfor %}
+                                        #}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                   <div class="label">{{ form_label(form.category) }}</div>
+                                   <div class="input">{{ form_widget(form.category) }}</div>
+                                   <div class="error">{{ form_errors(form.category) }}</div>
+                                </div>
+                                <div class="col">
+                                    <div class="row" id="update_actions-buttons">
+                                        <div class="col">
+                                            <button type="submit" class="btn btn-dark">Sauvegarder</button>
+                                        </div>
+                                        <div class="col">
+                                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModalDeleteTrick">
+                                                Supprimer</button>
+                                            {% include '_parts/_delete_trick_modal_update.html.twig' with { 'trick': trick } %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{ form_end(form) }}
+{% endblock %}
+

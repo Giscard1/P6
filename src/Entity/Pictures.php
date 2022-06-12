@@ -4,12 +4,16 @@ namespace App\Entity;
 
 use App\Repository\PicturesRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * @ORM\Entity(repositoryClass=PicturesRepository::class)
  */
 class Pictures
 {
+
+    public $nature = 'picture';
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -21,6 +25,26 @@ class Pictures
      * @ORM\Column(type="string", length=255)
      */
     private $name;
+
+
+    private UploadedFile $imageFile;
+
+    /**
+     * @return UploadedFile
+     */
+    public function getImageFile(): UploadedFile
+    {
+        return $this->imageFile;
+    }
+
+
+    /**
+     * @param UploadedFile $imageFile
+     */
+    public function setImageFile(UploadedFile $imageFile): void
+    {
+        $this->imageFile = $imageFile;
+    }
 
     /**
      * @ORM\Column(type="text", nullable=true)
@@ -43,10 +67,16 @@ class Pictures
     private $updateDate;
 
     /**
-     * @ORM\Column(type="boolean", nullable=true)
+     * Pictures constructor.
      */
-    private $mainImage;
 
+   /*
+    *  public function __construct($mainImage)
+    {
+        $this->mainImage = $mainImage;
+    }
+
+    */
     public function getId(): ?int
     {
         return $this->id;
@@ -112,15 +142,9 @@ class Pictures
         return $this;
     }
 
-    public function getMainImage(): ?bool
+    public function __toString()
     {
-        return $this->mainImage;
+        return (string)$this->name;
     }
 
-    public function setMainImage(?bool $mainImage): self
-    {
-        $this->mainImage = $mainImage;
-
-        return $this;
-    }
 }

@@ -2,6 +2,7 @@ body{
     margin:0;
     padding:0;
     height:1200px;
+    color: black;
 }
 
 #firstTrickDiv{
@@ -9,15 +10,124 @@ body{
     height: 25%;
 }
 
+.mediaContainer{
+    margin-top: 2%;
+    margin-left: 1%;
+}
+
+#penUpdateIcon{
+    margin-left: 12%;
+    background-color: white;
+    border: none;
+
+}
+
+.update_save_button{
+    margin-top: 25%;
+    margin-left: 347%;
+}
+
+.update_delete_button{
+    margin-top: 27%;
+    margin-left: 447%;
+}
+
+#TrashUpdateIcon{
+    margin-left: 110%;
+    background-color: white;
+    border: none;
+}
+.update_link_buttons{
+    margin-top: 10%;
+}
 #secondTrickDiv{
     background-color:white;
     height: 10%;
 }
 
-.descriptionContainer{
-    margin-left: 10%;
-    margin-right: 10%;
-    margin-top: 3%;
-    text-align: center;
+#update-button{
+    background-color: transparent;
+    border-color: transparent;
+}
 
+.fa-pen{
+    color: forestgreen;
+}
+
+#trash-button{
+    background-color: transparent;
+    border-color: transparent;
+}
+
+.fa-trash{
+    color: orangered;
+}
+
+
+.descriptionContainer{
+  margin-bottom: 4%;
+    margin-top: 4%;
+    text-align: center;
+}
+
+.videoContainer{
+    margin-bottom: 4%;
+    margin-top: 4%;
+}
+
+.categoryContainer{
+    margin-bottom: 4%;
+
+}
+#footer{
+    background-color: lightgray;
+    bottom: 0;
+    position: fixed;
+    width: 100%;
+    height: 40px;
+    margin-top: 200px;
+}
+.nameContainer{
+    margin-top: 4%;
+    margin-bottom: 4%;
+}
+.commentBox{
+    border: thin solid;
+}
+
+.show-trick-card{
+    max-width: 882px;
+}
+ul{
+    list-style-type: none;
+}
+
+.comments{
+    padding: 0.5%;
+}
+
+.commentSection{
+    margin-top: 3%;
+}
+
+.rowComment{
+    margin-top: 1%;
+}
+
+.inputCommentaire{
+    border: thin solid black;
+}
+
+#update_actions-buttons{
+    margin-top: 10%;
+    margin-left: 20%;
+}
+
+.card-card-card{
+    margin-top: 2%;
+    border: none;
+}
+
+.card-body-body{
+    background-color: #A0615F;
 }

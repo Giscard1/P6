@@ -1,0 +1,154 @@
+{% extends'baseTrick.html.twig' %}
+{% block body %}
+    <div class="container-fluid">
+        <div class="col d-flex justify-content-center">
+            <div class="card card-card-card">
+                {% if app.user %}
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="d-flex flex-row-reverse">
+                                <div class="update-icon">
+                                    <button type="button" class="btn btn-primary" id="update-button">
+                                        <a href="{{ path('trick_update', {'id':trick.id}) }}">
+                                            <i class="fas fa-pen"></i>
+                                        </a>
+                                    </button>
+                                </div>
+                                <div class="trash-icon">
+                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" id="trash-button">
+                                        <i class="fas fa-trash"></i></button>
+                                    {% include '_parts/_delete_trick_modal_card.html.twig' with {'media':media} %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+                <div class="card-body card-body-body">
+                    <div class="container-fluid">
+                      <img src="{{ '/uploads/trick/' ~  mainImage  }}" alt="{{ mainImage }}" width="800" height="400"/>
+                    </div>
+                    <div class="mediaContainer">
+                        {% include '_parts/_mediasCarousel.html.twig' with { 'medias': medias, 'show': mode_ouverture } %}
+                    </div>
+                    {#
+                    <div class="pictures-container">
+                        <div class="row">
+                            {% for picture in trick.picture %}
+                                <div class="col-md-3">
+                                    <p>
+                                    <img src="{{ '/uploads/trick/' ~  picture.name  }}" alt="{{ picture.description }}"/>
+                                    </p>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="videoContainer">
+                                {% for video in trick.videos %}
+                                    <iframe width="300" height="150" src="{{ video }}"></iframe>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    #}
+                    <div class="descriptionContainer">
+                        {{ trick.description }}
+                    </div>
+                    <div class="importantInformations" style="margin-top: 3%">
+                        <div class="row">
+                            <div class="col d-flex justify-content-center">
+                                     <span class="badge bg-secondary">
+                                        <P>Date de création : </P>{{ trick.creationDate |date('d-m-Y') }}
+                                     </span>
+                            </div>
+                            <div class="col d-flex justify-content-center">
+                                    <span class="badge bg-secondary">
+                                        <P>Categorie : </P>{{ trick.category.name }}
+                                     </span>
+                            </div>
+                            {% if trick.updateDate %}
+                                <div class="col d-flex justify-content-center">
+                                        <span class="badge bg-secondary">
+                                        <P>Categorie : </P>{{ trick.updateDate |date('d-m-Y') }}
+                                        </span>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% if app.user %}
+                        {{ form_start(commentForm) }}
+                        <div class="row" style="margin-top: 3%">
+                            <div class="col-6 offset-2">
+                                <div class="input inputCommentaire">{{ form_widget(commentForm.content, {'attr': {'class': 'inputCommentaire'}}) }}</div>
+                            </div>
+                            <div class="col-3">
+                                <button type="submit" class="btn btn-dark">Envoyer</button>
+                            </div>
+                        </div>
+                        {{ form_end(commentForm) }}
+                    {% endif %}
+                    <div class="row">
+                        <div class="col">
+                            <div class="commentSection">
+                                <div id="container-comment">
+                                    {% for comment in trick.comment|slice(0, 3) %}
+                                        <ul>
+                                            <li class="commentBox">
+                                                <div class="comments"> {{ comment.content }}</div>
+                                            </li>
+                                        </ul>
+                                    {% endfor %}
+                                </div>
+                                {% for comment in trick.comment %}
+                                {% if comment > 0 %}
+                                <div class="col text-center">
+                                    <button type="button" id="load-more-comment" data-url="{{ path('load-more-comment', {'id': trick.id}) }}" data-nextPage="2">Plus</button>
+                                </div>
+                                {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{#
+ {% block javascripts %}
+     <script src="{{ asset('/js/main.js') }}"></script>
+ {% endblock %}
+#}
+
+
+{% block javascripts %}
+    <script>
+        /*
+     Carousel
+ */
+        $('#carousel-example').on('slide.bs.carousel', function (e) {
+            /*
+                CC 2.0 License Iatek LLC 2018 - Attribution required
+            */
+            var $e = $(e.relatedTarget);
+            var idx = $e.index();
+            var itemsPerSlide = 5;
+            var totalItems = $('.carousel-item').length;
+
+            if (idx >= totalItems-(itemsPerSlide-1)) {
+                var it = itemsPerSlide - (totalItems - idx);
+                for (var i=0; i<it; i++) {
+                    // append slides to end
+                    if (e.direction=="left") {
+                        $('.carousel-item').eq(i).appendTo('.carousel-inner');
+                    }
+                    else {
+                        $('.carousel-item').eq(0).appendTo('.carousel-inner');
+                    }
+                }
+            }
+        });
+    </script>
+{% endblock %}

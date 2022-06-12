@@ -25,6 +25,8 @@ class TricksFixture extends Fixture implements DependentFixtureInterface
             $trick->setUser($userRandomJoe);
             $trick->setCreationDate(new \DateTime());
             $trick->setCategory($category);
+            $trick->setAlt('this is a picture');
+            $trick->setSlug($trick->getName());
             $manager->persist($trick);
         }
 

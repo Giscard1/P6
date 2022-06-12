@@ -12,7 +12,7 @@ class AppFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
-        // $category = new Category();
+        //$category = new Category();
          //$user = new User();
          //$trick = new Tricks();
 

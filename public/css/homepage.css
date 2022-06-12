@@ -10,7 +10,48 @@ body{
 }
 
 #secondDiv{
-    background-color:white;
+    background-color:rgb(61,77,92);
     height: 60%;
 }
+.jumbotron-title{
+    padding-top: 25%;
+    padding-left: 55%;
+}
+.jumbotron{
+    background-image: url("https://media.istockphoto.com/photos/young-man-falling-while-snowboarding-on-a-mountain-picture-id1298115981?b=1&k=20&m=1298115981&s=170667a&w=0&h=qBImnJcJpX4caWiDS3cNF4dDv4GVxIBbudrupOcWU14=");
+    background-repeat: no-repeat, repeat;
+    background-position: center;
+    background-size: cover;
+    min-height: 500px;
+    max-width: 1000px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    margin-left: 100px;
+    border-radius: 50px;
+    box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+}
 
+.card{
+    max-height: 250px;
+    max-width: 250px;
+    margin-bottom: 100px;
+    margin-left: 75px;
+}
+
+.btn-submit-new-password{
+    margin-top: 3%;
+    margin-bottom: 3%;
+}
+
+
+#footer{
+    background-color: lightgray;
+    bottom: 0;
+    position: fixed;
+    width: 100%;
+    height: 70px;
+}
+
+.vvvv{
+    background-color: rgb(61,77,92);
+}

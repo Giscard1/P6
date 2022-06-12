@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Tricks;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -56,4 +57,26 @@ class TricksRepository extends ServiceEntityRepository
         return new Paginator($querybuilder);
     }
 
+    public function findTricById(int $idTrick){
+        return $this->findOneBy(['id' => $idTrick]);
+    }
+
+    public function getCommentsByLimit(int $int, int $LIMIT_COMMENT_PER_PAGE)
+    {
+        return $this->createQueryBuilder('t')
+            //->where('t.comment')
+            ->setFirstResult($int * $LIMIT_COMMENT_PER_PAGE)
+            ->setMaxResults($LIMIT_COMMENT_PER_PAGE)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function getCommentsByLimitx()
+    {
+        return $this->createQueryBuilder('t')
+            ->innerJoin('t.comment',
+                'c', Join::WITH, 'c.id = t.comment')
+            ->getQuery()
+            ->getResult();
+    }
 }

@@ -1,0 +1,152 @@
+{% extends'baseTrick.html.twig' %}
+{% block body %}
+    {{ form_start(form) }}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col d-flex justify-content-center">
+                <div class="card card-card-card">
+                    <div class="card-body card-body-body">
+                        <div class="container">
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="container-fluid">
+                                            <img src="https://fakeimg.pl/800x200/">
+                                        </div>
+                                    </div>
+                                </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="nameContainer">
+                                        <div class="form-groupx">
+                                            <div class="label d-flex justify-content-center">{{ form_label(form.name) }}</div>
+                                            <div class="input">{{ form_widget(form.name) }}</div>
+                                            <div class="error">{{ form_errors(form.name) }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="mediasContainer">
+                                        {% include '_parts/_mediasCarouselUpdate.html.twig' with { 'medias': medias, 'trick' : trick } %}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="descriptionContainer">
+                                        <div class="form-groupx">
+                                            <div class="label d-flex justify-content-center">{{ form_label(form.description) }}</div>
+                                            <div class="input">{{ form_widget(form.description) }}</div>
+                                            <div class="error">{{ form_errors(form.description) }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group">
+                                    <ul class="picture-container"
+                                        data-index="{{ form.picture|length > 0 ? form.picture|last.vars.name + 1 : 0 }}"
+                                        data-prototype="{{ form_widget(form.picture.vars.prototype)|e('html_attr') }}"
+                                    >{#
+                                        {% for picture in form.picture %}
+                                            <li>{{ form_row(picture.imageFile) }}</li>
+                                        {% endfor %}
+                                        #}
+                                        <button type="button" class="add_item_link" data-collection-holder-class="picture-container">Ajouter une image</button>
+                                    </ul>
+                                </div>
+                                <div class="form-group">
+                                    <div class="videoContainer">
+                                        {#
+                                        {% for video in trick.videos %}
+                                            <iframe width="75" height="50" src="{{ video }}"></iframe>
+                                            {#<button type="button" class="add_item_link" data-collection-holder-class="videos-container">Ajouter une video</button>
+                                            <div class="trash-icon">
+                                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalSuppressionVideo" id="trash-button">
+                                                        <i class="fas fa-trash"></i></button>
+                                                    {% include '_parts/_delete_trick_video_modal_update.html.twig' with {'video': video} %}
+                                                </div>
+                                        {% endfor %}
+                                        #}
+                                    <ul class="videos-container"
+                                        data-index="{{ form.videos|length > 0 ? form.videos|last.vars.name + 1 : 0 }}"
+                                        data-prototype="{{ form_widget(form.videos.vars.prototype)|e('html_attr') }}"
+                                    >
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                   <div class="label">{{ form_label(form.category) }}</div>
+                                   <div class="input">{{ form_widget(form.category) }}</div>
+                                   <div class="error">{{ form_errors(form.category) }}</div>
+                                </div>
+                                <div class="col">
+                                    <div class="row" id="update_actions-buttons">
+                                        <div class="col">
+                                            <button type="submit" class="btn btn-dark">Sauvegarder</button>
+                                        </div>
+                                        <div class="col">
+                                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="exampleModalx">
+                                                Supprimer</button>
+                                            {% include '_parts/_delete_trick_modal_update.html.twig' with { 'trick': trick } %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{ form_end(form) }}
+{% endblock %}
+
+
+{% block javascripts %}
+    <script>
+        const addTagFormDeleteLink = (item) => {
+            const removeFormButton = document.createElement('button');
+            removeFormButton.innerText = 'Supprimer';
+
+            item.append(removeFormButton);
+
+            removeFormButton.addEventListener('click', (e) => {
+                e.preventDefault();
+                // remove the li for the tag form
+                item.remove();
+            });
+        };
+
+        const addFormToCollection = (e) => {
+            const collectionHolder = document.querySelector(`.${e.currentTarget.dataset.collectionHolderClass}`);
+            const item = document.createElement('li');
+
+            item.innerHTML = collectionHolder
+                .dataset
+                .prototype
+                .replace(
+                    /__name__/g,
+                    collectionHolder.dataset.index
+                );
+            addTagFormDeleteLink(item);
+            collectionHolder.appendChild(item);
+            collectionHolder.dataset.index++;
+        };
+
+        document
+            .querySelectorAll('ul.tags li')
+            .forEach((tag) => {
+                addTagFormDeleteLink(tag)
+            });
+
+        document
+            .querySelectorAll('.add_item_link')
+            .forEach(btn => {
+                btn.addEventListener("click", addFormToCollection)
+            });
+    </script>
+{% endblock %}
